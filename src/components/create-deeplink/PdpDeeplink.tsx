@@ -23,7 +23,7 @@ export function PdpDeeplink({
 
   return (
     <div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="productId">Product ID</Label>
         </div>
@@ -41,7 +41,7 @@ export function PdpDeeplink({
           }
         />
       </div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="defaultVariantId">Default Variant ID</Label>
         </div>
@@ -61,7 +61,7 @@ export function PdpDeeplink({
           }
         />
       </div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="brandId">Brand ID</Label>
         </div>
@@ -78,7 +78,7 @@ export function PdpDeeplink({
           }
         />
       </div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="brandName">Brand Name</Label>
         </div>

@@ -112,14 +112,16 @@ function CreateDeeplinkPage() {
     <div className="min-h-screen w-full bg-white px-8 py-6">
       <div className="flex gap-8">
         {/* LEFT: Form */}
-        <div className="w-1/3 space-y-8">
+        <div
+          className={`${selectedDeeplinkType ? "w-1/3" : "w-1/2"} space-y-8`}
+        >
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold text-gray-900">
               Create Deeplink
             </h1>
           </div>
 
-          <div className="mt-8 space-y-2 max-w-[375px]">
+          <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
             <Label htmlFor="baseUrl">Base URL</Label>
             <Input
               id="baseUrl"
@@ -160,7 +162,11 @@ function CreateDeeplinkPage() {
         </div>
 
         {/* RIGHT: Text Area */}
-        <div className="w-1/3 space-y-4 min-w-[300px] max-w-[450px]">
+        <div
+          className={`${
+            selectedDeeplinkType ? "w-1/3" : "w-1/2"
+          } min-w-[300px] max-w-[450px] space-y-4 ml-6`}
+        >
           {/* PREVIEW */}
           <div>
             <Label htmlFor="preview" className="block mb-2">

@@ -47,7 +47,7 @@ export function SearchDeeplink({
 
   return (
     <div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="baseUrl">Deeplink with filter key</Label>
         </div>
@@ -56,7 +56,7 @@ export function SearchDeeplink({
           onCheckedChange={setDeeplinkWithFilterKey}
         />
       </div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="searchQuery">Search query</Label>
         </div>
@@ -74,7 +74,7 @@ export function SearchDeeplink({
           }
         />
       </div>
-      <div className="mt-8 space-y-2 max-w-[375px]">
+      <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="overrideTag">Override Tag</Label>
         </div>
@@ -93,7 +93,7 @@ export function SearchDeeplink({
       </div>
       {deeplinkWithFilterKey && (
         <>
-          <div className="mt-8 space-y-2 max-w-[375px]">
+          <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
             <div className="flex items-center">
               <Label htmlFor="filterKey">Filter Key</Label>
             </div>
@@ -114,7 +114,7 @@ export function SearchDeeplink({
               }
             />
           </div>
-          <div className="mt-8 space-y-2 max-w-[375px]">
+          <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
             <div className="flex items-center">
               <Label htmlFor="filterOptions">Filter Options</Label>
             </div>
@@ -126,7 +126,7 @@ export function SearchDeeplink({
               setInputValue={setFilterOptionsInputValue}
             />
           </div>
-          <div className="mt-8 space-y-2 max-w-[375px]">
+          <div className="mt-8 space-y-2 min-w-[375px] max-w-[375px]">
             <div className="flex items-center">
               <Label htmlFor="selectedFilterOptions">Filter Options</Label>
             </div>
