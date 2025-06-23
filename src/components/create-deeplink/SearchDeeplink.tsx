@@ -31,10 +31,16 @@ export function SearchDeeplink({
   }, []);
 
   useEffect(() => {
-    if (deeplinkParams.params.options.length === 0) {
+    if (
+      deeplinkParams.params?.options &&
+      deeplinkParams.params?.options.length === 0
+    ) {
       setFilterOptionsInputValue("");
     }
-    if (deeplinkParams.params.selectedOptions.length === 0) {
+    if (
+      deeplinkParams.params?.selectedOptions &&
+      deeplinkParams.params?.selectedOptions.length === 0
+    ) {
       setSelectedFilterOptionsInputValue("");
     }
   }, [deeplinkParams]);
