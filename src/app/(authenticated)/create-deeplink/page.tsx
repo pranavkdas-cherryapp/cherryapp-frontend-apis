@@ -16,6 +16,9 @@ import {
 import { SearchDeeplink } from "@/components/create-deeplink/SearchDeeplink";
 import { Textarea } from "@/components/ui/textarea";
 import qs from "qs";
+import { PdpDeeplink } from "@/components/create-deeplink/PdpDeeplink";
+import { SinglePageDeeplinks } from "@/components/create-deeplink/SinglePageDeeplinks";
+import Image from "next/image";
 
 function CreateDeeplinkPage() {
   const [baseUrl, setBaseUrl] = useState("https://creators.cherryapp.in/");
@@ -43,9 +46,13 @@ function CreateDeeplinkPage() {
     if (path === "") {
       return;
     }
-    const deeplink = `${baseUrl}${path}?${qs.stringify(params, {
+    const stringifiedParams = qs.stringify(params, {
       arrayFormat: "repeat",
-    })}`;
+    });
+    let deeplink = `${baseUrl}${path}`;
+    if (stringifiedParams !== "") {
+      deeplink += `?${stringifiedParams}`;
+    }
     setDeeplinkPreview(deeplink);
   };
 
@@ -56,13 +63,56 @@ function CreateDeeplinkPage() {
         setDeeplinkParams={setDeeplinkParams}
       />
     ),
+    pdp: (
+      <PdpDeeplink
+        deeplinkParams={deeplinkParams}
+        setDeeplinkParams={setDeeplinkParams}
+      />
+    ),
+    home: (
+      <SinglePageDeeplinks
+        deeplinkParams={deeplinkParams}
+        setDeeplinkParams={setDeeplinkParams}
+        path="home"
+      />
+    ),
+    howItWorks: (
+      <SinglePageDeeplinks
+        deeplinkParams={deeplinkParams}
+        setDeeplinkParams={setDeeplinkParams}
+        path="home/how-it-works/intro"
+      />
+    ),
+    cashback: (
+      <SinglePageDeeplinks
+        deeplinkParams={deeplinkParams}
+        setDeeplinkParams={setDeeplinkParams}
+        path="cashback"
+      />
+    ),
+    shop: (
+      <SinglePageDeeplinks
+        deeplinkParams={deeplinkParams}
+        setDeeplinkParams={setDeeplinkParams}
+        path="shop"
+      />
+    ),
+  };
+
+  const renderDeeplinkImage = {
+    search: "/images/search.png",
+    pdp: "/images/pdp.png",
+    home: "/images/home.png",
+    shop: "/images/shop.png",
+    cashback: "/images/cashback.png",
+    howItWorks: "/images/how-it-works.png",
   };
 
   return (
     <div className="min-h-screen w-full bg-white px-8 py-6">
       <div className="flex gap-8">
         {/* LEFT: Form */}
-        <div className="w-1/2 space-y-8">
+        <div className="w-1/3 space-y-8">
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold text-gray-900">
               Create Deeplink
@@ -92,6 +142,12 @@ function CreateDeeplinkPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="search">Search</SelectItem>
+                <SelectItem value="pdp">PDP</SelectItem>
+                <SelectItem value="home">Home</SelectItem>
+                <SelectItem value="shop">Shop</SelectItem>
+                <SelectItem value="cashback">Cashback</SelectItem>
+                <SelectItem value="howItWorks">How it works</SelectItem>
+
                 {/* Add more options here */}
               </SelectContent>
             </Select>
@@ -104,19 +160,22 @@ function CreateDeeplinkPage() {
         </div>
 
         {/* RIGHT: Text Area */}
-        <div className="w-1/2 space-y-4 min-w-[450px] max-w-[450px]">
+        <div className="w-1/3 space-y-4 min-w-[300px] max-w-[450px]">
+          {/* PREVIEW */}
           <div>
             <Label htmlFor="preview" className="block mb-2">
               Output / Preview
             </Label>
             <Textarea
               id="preview"
-              className="w-full h-full min-h-[300px] max-h-[300px] resize-none rounded-md border border-gray-300 p-4 text-sm text-gray-800 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              className="w-full min-h-[300px] max-h-[300px] resize-none rounded-md border border-gray-300 p-4 text-sm text-gray-800 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               placeholder="Deeplink or JSON preview will appear here..."
               value={deeplinkPreview}
               readOnly={true}
             />
           </div>
+
+          {/* BUTTONS */}
           <div className="flex flex-row gap-2">
             <Button
               onClick={generateDeeplink}
@@ -135,6 +194,8 @@ function CreateDeeplinkPage() {
               Copy
             </Button>
           </div>
+
+          {/* RESET */}
           <Button
             onClick={() => {
               console.log(deeplinkParams);
@@ -149,10 +210,7 @@ function CreateDeeplinkPage() {
                   return [key, null]; // fallback
                 })
               );
-              setDeeplinkParams({
-                path: "",
-                params: params,
-              });
+              setDeeplinkParams({ path: "", params });
               setDeeplinkPreview("");
             }}
             className="w-full"
@@ -161,6 +219,21 @@ function CreateDeeplinkPage() {
           >
             Reset deeplink
           </Button>
+        </div>
+        <div className="w-1/3 flex items-start justify-center pt-4">
+          {selectedDeeplinkType && (
+            <Image
+              src={
+                renderDeeplinkImage[
+                  selectedDeeplinkType as keyof typeof renderDeeplinkImage
+                ]
+              }
+              width={300}
+              height={300}
+              alt="Deeplink preview"
+              className="rounded-lg border shadow-md"
+            />
+          )}
         </div>
       </div>
     </div>
