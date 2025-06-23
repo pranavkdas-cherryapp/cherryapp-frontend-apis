@@ -8,25 +8,43 @@ import { X } from "lucide-react";
 export default function StringInputWithChips({
   values,
   setValues,
+  paramKey,
+  inputValue,
+  setInputValue,
 }: {
-  values: string[];
-  setValues: (values: string[]) => void;
+  values: { path: string; params: any };
+  setValues: ({ path, params }: { path: string; params: any }) => void;
+  paramKey: string;
+  inputValue: string;
+  setInputValue: (value: string) => void;
 }) {
-  const [inputValue, setInputValue] = useState("");
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim() !== "") {
       e.preventDefault();
       const newValue = inputValue.trim();
-      if (!values.includes(newValue)) {
-        setValues((prev) => [...prev, newValue]);
+      if (!values.params?.[paramKey]?.includes(newValue)) {
+        setValues({
+          path: values.path,
+          params: {
+            ...values.params,
+            [paramKey]: [...(values.params?.[paramKey] ?? []), newValue],
+          },
+        });
       }
       setInputValue("");
     }
   };
 
   const removeValue = (val: string) => {
-    setValues((prev) => prev.filter((v) => v !== val));
+    setValues({
+      path: values.path,
+      params: {
+        ...values.params,
+        [paramKey]: (values.params?.[paramKey] ?? []).filter(
+          (v: string) => v !== val
+        ),
+      },
+    });
   };
 
   return (
@@ -37,9 +55,8 @@ export default function StringInputWithChips({
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-
       <div className="flex flex-wrap gap-2">
-        {values.map((val) => (
+        {values.params[paramKey].map((val: string) => (
           <Badge
             key={val}
             variant="secondary"

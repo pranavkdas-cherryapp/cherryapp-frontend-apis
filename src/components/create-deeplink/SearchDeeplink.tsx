@@ -1,23 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import StringInputWithChips from "@/components/ui/StringInputWithChips";
 
-export function SearchDeeplink() {
+export function SearchDeeplink({
+  deeplinkParams,
+  setDeeplinkParams,
+}: {
+  deeplinkParams: { path: string; params: any };
+  setDeeplinkParams: ({ path, params }: { path: string; params: any }) => void;
+}) {
+  const [filterOptionsInputValue, setFilterOptionsInputValue] = useState("");
+  const [selectedFilterOptionsInputValue, setSelectedFilterOptionsInputValue] =
+    useState("");
   const [deeplinkWithFilterKey, setDeeplinkWithFilterKey] =
     useState<boolean>(false);
-  const [filterKey, setFilterKey] = useState<string>("");
-  const [filterOptions, setFilterOptions] = useState<string[]>([]);
-  const [selectedFilterOptions, setSelectedFilterOptions] = useState<string[]>(
-    []
-  );
-  const [overrideTag, setOverrideTag] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  useEffect(() => {
+    setDeeplinkParams({
+      path: "shop/searchActive",
+      params: {
+        searchQuery: "",
+        overrideTag: "",
+        filterKey: "",
+        options: [],
+        selectedOptions: [],
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (deeplinkParams.params.options.length === 0) {
+      setFilterOptionsInputValue("");
+    }
+    if (deeplinkParams.params.selectedOptions.length === 0) {
+      setSelectedFilterOptionsInputValue("");
+    }
+  }, [deeplinkParams]);
 
   return (
     <div>
-      <div className="grid gap-2 mt-8 flex flex-col">
+      <div className="mt-8 space-y-2 max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="baseUrl">Deeplink with filter key</Label>
         </div>
@@ -26,7 +50,7 @@ export function SearchDeeplink() {
           onCheckedChange={setDeeplinkWithFilterKey}
         />
       </div>
-      <div className="grid gap-2 mt-8 flex flex-col">
+      <div className="mt-8 space-y-2 max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="searchQuery">Search query</Label>
         </div>
@@ -34,11 +58,17 @@ export function SearchDeeplink() {
           id="searchQuery"
           type="text"
           placeholder="Enter search query"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={deeplinkParams.params.searchQuery ?? ""}
+          className="w-full"
+          onChange={(e) =>
+            setDeeplinkParams({
+              ...deeplinkParams,
+              params: { ...deeplinkParams.params, searchQuery: e.target.value },
+            })
+          }
         />
       </div>
-      <div className="grid gap-2 mt-8 flex flex-col">
+      <div className="mt-8 space-y-2 max-w-[375px]">
         <div className="flex items-center">
           <Label htmlFor="overrideTag">Override Tag</Label>
         </div>
@@ -46,13 +76,18 @@ export function SearchDeeplink() {
           id="overrideTag"
           type="text"
           placeholder="Enter override tag"
-          value={overrideTag}
-          onChange={(e) => setOverrideTag(e.target.value)}
+          value={deeplinkParams.params.overrideTag ?? ""}
+          onChange={(e) =>
+            setDeeplinkParams({
+              ...deeplinkParams,
+              params: { ...deeplinkParams.params, overrideTag: e.target.value },
+            })
+          }
         />
       </div>
       {deeplinkWithFilterKey && (
         <>
-          <div className="grid gap-2 mt-8 flex flex-col">
+          <div className="mt-8 space-y-2 max-w-[375px]">
             <div className="flex items-center">
               <Label htmlFor="filterKey">Filter Key</Label>
             </div>
@@ -60,26 +95,41 @@ export function SearchDeeplink() {
               id="filterKey"
               type="text"
               placeholder="Enter filter key"
-              value={filterKey}
-              onChange={(e) => setFilterKey(e.target.value)}
+              value={deeplinkParams.params.filterKey ?? ""}
+              className="w-full"
+              onChange={(e) =>
+                setDeeplinkParams({
+                  ...deeplinkParams,
+                  params: {
+                    ...deeplinkParams.params,
+                    filterKey: e.target.value,
+                  },
+                })
+              }
             />
           </div>
-          <div className="grid gap-2 mt-8 flex flex-col">
+          <div className="mt-8 space-y-2 max-w-[375px]">
             <div className="flex items-center">
               <Label htmlFor="filterOptions">Filter Options</Label>
             </div>
             <StringInputWithChips
-              values={filterOptions}
-              setValues={setFilterOptions}
+              values={deeplinkParams}
+              setValues={setDeeplinkParams}
+              paramKey={"options"}
+              inputValue={filterOptionsInputValue}
+              setInputValue={setFilterOptionsInputValue}
             />
           </div>
-          <div className="grid gap-2 mt-8 flex flex-col">
+          <div className="mt-8 space-y-2 max-w-[375px]">
             <div className="flex items-center">
               <Label htmlFor="selectedFilterOptions">Filter Options</Label>
             </div>
             <StringInputWithChips
-              values={selectedFilterOptions}
-              setValues={setSelectedFilterOptions}
+              values={deeplinkParams}
+              setValues={setDeeplinkParams}
+              paramKey={"selectedOptions"}
+              inputValue={selectedFilterOptionsInputValue}
+              setInputValue={setSelectedFilterOptionsInputValue}
             />
           </div>
         </>
