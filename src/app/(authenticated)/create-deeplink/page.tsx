@@ -43,7 +43,9 @@ function CreateDeeplinkPage() {
     if (path === "") {
       return;
     }
-    const deeplink = `${baseUrl}${path}?${qs.stringify(params)}`;
+    const deeplink = `${baseUrl}${path}?${qs.stringify(params, {
+      arrayFormat: "repeat",
+    })}`;
     setDeeplinkPreview(deeplink);
   };
 
