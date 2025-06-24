@@ -16,7 +16,7 @@ export function SinglePageDeeplinks({
       path: path,
       params: {},
     });
-  }, []);
+  }, [path]);
 
   return null;
 }
